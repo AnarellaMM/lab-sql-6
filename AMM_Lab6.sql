@@ -31,21 +31,22 @@ select * from films_2020;
 
 -- Instructions
 -- Add the new films to the database.
-
-BULK INSERT Films_2020 FROM '/Users/anarellamartinez-madrid/Documents/DA/2.unit2/films_2020.csv'
-   WITH (
-      FIELDTERMINATOR = ',',
-      ROWTERMINATOR = '\n'
-);
-
 -- Update information on rental_duration, rental_rate, and replacement_cost.
-
-
 -- You might have to use the following commands to set bulk import option to ON:
 
-show variables like 'local_infile';
-set global local_infile = 1;
 
 
--- If bulk import gives an unexpected error, you can also use the data_import_wizard to insert data into the new table.
+
+SHOW VARIABLES LIKE 'local_infile';
+SET GLOBAL local_infile = 1;
+
+LOAD DATA LOCAL INFILE 'Documents/DA/2.Unit2/films_2020.csv'  -- I have always problems to bring the data 
+INTO TABLE films_2020
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS
+(title, description, @release_year, language_id, original_language_id)
+SET release_year = '2020', rental_duration = 3, rental_rate = 2.99, replacement_cost = 8.99, rating = 'G';
+
+
 
